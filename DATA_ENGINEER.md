@@ -58,7 +58,7 @@ AvgLoss_t = \frac{AvgLoss_{t-1} \times (N-1) + Loss_t}{N}
 $$
 
 $$
-RS_t = \frac{AvgGain_t}{AvgLoss_t} \quad \text{(Handle division by zero)}
+RS_t = \frac{AvgGain_t}{AvgLoss_t}
 $$
 
 $$
@@ -71,15 +71,15 @@ EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha) \quad \text{wh
 $$
 
 $$
-MACD\_Line_t = EMA_{t, 12} - EMA_{t, 26}
+MACD\_{Line}_t = EMA_{t, 12} - EMA_{t, 26}
 $$
 
 $$
-Signal\_Line_t = EMA(MACD\_Line_t, 9)
+Signal\_{Line}_t = EMA(MACD\_{Line}_t, 9)
 $$
 
 $$
-MACD\_Histogram_t = MACD\_Line_t - Signal\_Line_t
+MACD\_{Histogram}_t = MACD\_{Line}_t - Signal\_{Line}_t
 $$
 
 Publish these aggregated features back to Kafka:
