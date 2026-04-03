@@ -25,7 +25,7 @@ Build a real-time intelligence engine and a FastAPI service (`quants`) that proc
 
 ## 3. Input Data & Connectivity
 
-Interface with the [Binance WebSocket Streams](https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams) for USD-margined futures. Use the `aggTrade` and `depth` channels.
+You will need to discover and interface with the [Binance WebSocket Streams](https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams). Please read the official documentation to obtain the correct stream URLs, channels, and data types for depth and aggregated trade events.
 
 ---
 

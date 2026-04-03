@@ -24,7 +24,7 @@ Build a scalable streaming pipeline and a real-time momentum detection engine th
 
 ## 3. Data Source (Live Stream)
 
-Interface with the [Binance WebSocket Streams](https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams) for USD-margined futures. Use the combined stream endpoint to subscribe to `aggTrade` across all 20+ tickers.
+You will need to discover and interface with the [Binance WebSocket Streams](https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams). Please read the official documentation to obtain the correct stream URLs, channels, and data types for depth and aggregated trade events. Use the combined stream endpoint to subscribe across all 20+ tickers.
 
 ---
 
