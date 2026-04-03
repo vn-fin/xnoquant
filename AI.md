@@ -125,15 +125,15 @@ $$
 Then, calculate the final components:
 
 $$
-MACD\_{Line}_t = EMA_{t, 12} - EMA_{t, 26}
+MACD_{\text{Line},t} = EMA_{t, 12} - EMA_{t, 26}
 $$
 
 $$
-Signal\_{Line}_t = MACD\_{Line}_t \times \alpha_{signal} + Signal\_{Line}_{t-1} \times (1 - \alpha_{signal}) \quad \text{where } N=9
+Signal_{\text{Line},t} = MACD_{\text{Line},t} \times \alpha_{signal} + Signal_{\text{Line},{t-1}} \times (1 - \alpha_{signal}) \quad \text{where } N=9
 $$
 
 $$
-MACD\_{Histogram}_t = MACD\_{Line}_t - Signal\_{Line}_t
+MACD_{\text{Histogram},t} = MACD_{\text{Line},t} - Signal_{\text{Line},t}
 $$
 
 ### Task D: Anomaly Detection (Volatility Spikes)

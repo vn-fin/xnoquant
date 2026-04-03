@@ -71,15 +71,15 @@ EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha) \quad \text{wh
 $$
 
 $$
-MACD\_{Line}_t = EMA_{t, 12} - EMA_{t, 26}
+MACD_{\text{Line},t} = EMA_{t, 12} - EMA_{t, 26}
 $$
 
 $$
-Signal\_{Line}_t = EMA(MACD\_{Line}_t, 9)
+Signal_{\text{Line},t} = EMA(MACD_{\text{Line},t}, 9)
 $$
 
 $$
-MACD\_{Histogram}_t = MACD\_{Line}_t - Signal\_{Line}_t
+MACD_{\text{Histogram},t} = MACD_{\text{Line},t} - Signal_{\text{Line},t}
 $$
 
 Publish these aggregated features back to Kafka:
