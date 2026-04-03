@@ -40,6 +40,7 @@ Subscribe to `raw-trades` and compute technical indicators using a stream proces
 
 *   **1. Time Windowing:** Align streams into **15-second tumbling windows**. Use the `close` price $P_t$ for each window.
 *   **2. Streaming RSI (14-period):** Calculate Wilders Smoothing RSI based on the windowed close price. Let $N=14$.
+
 $$
 Gain_t = \max(P_t - P_{t-1}, 0)
 $$
@@ -64,6 +65,7 @@ $$
 RSI_t = 100 - \frac{100}{1 + RS_t}
 $$
 *   **3. Streaming MACD (12, 26, 9):** Use the standard recursive EMA formula:
+
 $$
 EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha) \quad \text{where } \alpha = \frac{2}{N+1}
 $$

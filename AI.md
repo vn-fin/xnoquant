@@ -54,6 +54,7 @@ The engine must track two versions of Volume Weighted Average Price without reca
 *   $N$: The rolling window size (for rolling VWAP, $N=200$).
 
 1.  **Session VWAP:** Cumulative since the service started.
+
 $$
 CumulativePV_t = CumulativePV_{t-1} + (P_t \times Q_t)
 $$
@@ -67,6 +68,7 @@ SessionVWAP_t = \frac{CumulativePV_t}{CumulativeV_t}
 $$
 
 2.  **Rolling VWAP ($N=200$):** Weighted average of the last $N$ trade events.
+
 $$
 RollingPV_t = RollingPV_{t-1} + (P_t \times Q_t) - (P_{t-N} \times Q_{t-N})
 $$
@@ -88,6 +90,7 @@ Implement these as **incremental** updates (updating with every new trade event)
 *   $\alpha$: The smoothing factor for Exponential Moving Averages (EMA), derived as $\alpha = \frac{2}{N+1}$.
 
 * **Streaming RSI (14-period):** Use Wilder’s Smoothing (SMMA). Let $N=14$.
+
 $$
 Gain_t = \max(P_t - P_{t-1}, 0)
 $$
@@ -114,6 +117,7 @@ $$
 
 * **Streaming MACD (12, 26, 9):**
     First, the standard generalized recursive EMA formula:
+
 $$
 EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha)
 $$
@@ -148,6 +152,7 @@ r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)
 $$
 
 **Anomaly Condition:**
+
 $$
 |r_t - \mu_t| > z \times \sigma_t
 $$
