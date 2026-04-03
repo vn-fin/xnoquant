@@ -40,17 +40,45 @@ Subscribe to `raw-trades` and compute technical indicators using a stream proces
 
 *   **1. Time Windowing:** Align streams into **15-second tumbling windows**. Use the `close` price $P_t$ for each window.
 *   **2. Streaming RSI (14-period):** Calculate Wilders Smoothing RSI based on the windowed close price. Let $N=14$.
-    $$Gain_t = \max(P_t - P_{t-1}, 0)$$
-    $$Loss_t = \max(P_{t-1} - P_t, 0)$$
-    $$AvgGain_t = \frac{AvgGain_{t-1} \times (N-1) + Gain_t}{N}$$
-    $$AvgLoss_t = \frac{AvgLoss_{t-1} \times (N-1) + Loss_t}{N}$$
-    $$RS_t = \frac{AvgGain_t}{AvgLoss_t} \quad \text{(Handle division by zero)}$$
-    $$RSI_t = 100 - \frac{100}{1 + RS_t}$$
+$$
+Gain_t = \max(P_t - P_{t-1}, 0)
+$$
+
+$$
+Loss_t = \max(P_{t-1} - P_t, 0)
+$$
+
+$$
+AvgGain_t = \frac{AvgGain_{t-1} \times (N-1) + Gain_t}{N}
+$$
+
+$$
+AvgLoss_t = \frac{AvgLoss_{t-1} \times (N-1) + Loss_t}{N}
+$$
+
+$$
+RS_t = \frac{AvgGain_t}{AvgLoss_t} \quad \text{(Handle division by zero)}
+$$
+
+$$
+RSI_t = 100 - \frac{100}{1 + RS_t}
+$$
 *   **3. Streaming MACD (12, 26, 9):** Use the standard recursive EMA formula:
-    $$EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha) \quad \text{where } \alpha = \frac{2}{N+1}$$
-    $$MACD\_Line_t = EMA_{t, 12} - EMA_{t, 26}$$
-    $$Signal\_Line_t = EMA(MACD\_Line_t, 9)$$
-    $$MACD\_Histogram_t = MACD\_Line_t - Signal\_Line_t$$
+$$
+EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha) \quad \text{where } \alpha = \frac{2}{N+1}
+$$
+
+$$
+MACD\_Line_t = EMA_{t, 12} - EMA_{t, 26}
+$$
+
+$$
+Signal\_Line_t = EMA(MACD\_Line_t, 9)
+$$
+
+$$
+MACD\_Histogram_t = MACD\_Line_t - Signal\_Line_t
+$$
 
 Publish these aggregated features back to Kafka:
 *   **Topic:** `features-stream`
@@ -60,7 +88,9 @@ Subscribe to the `features-stream` Kafka topic. Every **15 seconds**, process th
 
 **Rules for Detection:**
 1.  **Calculate Score:** For each asset, calculate a simple `Momentum Score`:
-    $$Momentum\_Score = RSI_{14} + (\text{sign}(MACD\_Histogram) \times 10)$$
+$$
+Momentum\_Score = RSI_{14} + (\text{sign}(MACD\_Histogram) \times 10)
+$$
 2.  **Rank:** Rank all 20+ assets descending by their `Momentum Score`.
 3.  **Select Longs:** The top 3 assets (highest scores > 50) enter the **Long** basket (+0.33 weight each).
 4.  **Select Shorts:** The bottom 3 assets (lowest scores < 50) enter the **Short** basket (-0.33 weight each).

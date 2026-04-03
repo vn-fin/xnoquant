@@ -38,7 +38,9 @@ Calculate buy/sell pressure at the top of the book ($Level_1$).
 *   $BQ_1$: Total Bid Quantity at the best bid price level.
 *   $AQ_1$: Total Ask Quantity at the best ask price level.
 
-$$OBI = \frac{BQ_1 - AQ_1}{BQ_1 + AQ_1}$$
+$$
+OBI = \frac{BQ_1 - AQ_1}{BQ_1 + AQ_1}
+$$
 
 *   **Output Range:** $[-1, 1]$. An $OBI$ approaching $1$ indicates strong buying pressure, while $-1$ indicates strong selling pressure.
 
@@ -52,14 +54,30 @@ The engine must track two versions of Volume Weighted Average Price without reca
 *   $N$: The rolling window size (for rolling VWAP, $N=200$).
 
 1.  **Session VWAP:** Cumulative since the service started.
-    $$CumulativePV_t = CumulativePV_{t-1} + (P_t \times Q_t)$$
-    $$CumulativeV_t = CumulativeV_{t-1} + Q_t$$
-    $$SessionVWAP_t = \frac{CumulativePV_t}{CumulativeV_t}$$
+$$
+CumulativePV_t = CumulativePV_{t-1} + (P_t \times Q_t)
+$$
+
+$$
+CumulativeV_t = CumulativeV_{t-1} + Q_t
+$$
+
+$$
+SessionVWAP_t = \frac{CumulativePV_t}{CumulativeV_t}
+$$
 
 2.  **Rolling VWAP ($N=200$):** Weighted average of the last $N$ trade events.
-    $$RollingPV_t = RollingPV_{t-1} + (P_t \times Q_t) - (P_{t-N} \times Q_{t-N})$$
-    $$RollingV_t = RollingV_{t-1} + Q_t - Q_{t-N}$$
-    $$RollingVWAP_t = \frac{RollingPV_t}{RollingV_t}$$
+$$
+RollingPV_t = RollingPV_{t-1} + (P_t \times Q_t) - (P_{t-N} \times Q_{t-N})
+$$
+
+$$
+RollingV_t = RollingV_{t-1} + Q_t - Q_{t-N}
+$$
+
+$$
+RollingVWAP_t = \frac{RollingPV_t}{RollingV_t}
+$$
 
 ### Task C: Momentum Oscillators (RSI & MACD)
 Implement these as **incremental** updates (updating with every new trade event) without retaining full history.
@@ -70,20 +88,49 @@ Implement these as **incremental** updates (updating with every new trade event)
 *   $\alpha$: The smoothing factor for Exponential Moving Averages (EMA), derived as $\alpha = \frac{2}{N+1}$.
 
 * **Streaming RSI (14-period):** Use Wilder’s Smoothing (SMMA). Let $N=14$.
-    $$Gain_t = \max(P_t - P_{t-1}, 0)$$
-    $$Loss_t = \max(P_{t-1} - P_t, 0)$$
-    $$AvgGain_t = \frac{AvgGain_{t-1} \times (N-1) + Gain_t}{N}$$
-    $$AvgLoss_t = \frac{AvgLoss_{t-1} \times (N-1) + Loss_t}{N}$$
-    $$RS_t = \frac{AvgGain_t}{AvgLoss_t} \quad \text{(Handle division by zero)}$$
-    $$RSI_t = 100 - \frac{100}{1 + RS_t}$$
+$$
+Gain_t = \max(P_t - P_{t-1}, 0)
+$$
+
+$$
+Loss_t = \max(P_{t-1} - P_t, 0)
+$$
+
+$$
+AvgGain_t = \frac{AvgGain_{t-1} \times (N-1) + Gain_t}{N}
+$$
+
+$$
+AvgLoss_t = \frac{AvgLoss_{t-1} \times (N-1) + Loss_t}{N}
+$$
+
+$$
+RS_t = \frac{AvgGain_t}{AvgLoss_t} \quad \text{(Handle division by zero)}
+$$
+
+$$
+RSI_t = 100 - \frac{100}{1 + RS_t}
+$$
 
 * **Streaming MACD (12, 26, 9):**
     First, the standard generalized recursive EMA formula:
-    $$EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha)$$
-    Then, calculate the final components:
-    $$MACD\_Line_t = EMA_{t, 12} - EMA_{t, 26}$$
-    $$Signal\_Line_t = MACD\_Line_t \times \alpha_{signal} + Signal\_Line_{t-1} \times (1 - \alpha_{signal}) \quad \text{where } N=9$$
-    $$MACD\_Histogram_t = MACD\_Line_t - Signal\_Line_t$$
+$$
+EMA_{t, N} = P_t \times \alpha + EMA_{t-1, N} \times (1 - \alpha)
+$$
+
+Then, calculate the final components:
+
+$$
+MACD\_Line_t = EMA_{t, 12} - EMA_{t, 26}
+$$
+
+$$
+Signal\_Line_t = MACD\_Line_t \times \alpha_{signal} + Signal\_Line_{t-1} \times (1 - \alpha_{signal}) \quad \text{where } N=9
+$$
+
+$$
+MACD\_Histogram_t = MACD\_Line_t - Signal\_Line_t
+$$
 
 ### Task D: Anomaly Detection (Volatility Spikes)
 Flag an anomaly if the current log return deviates by more than $z$ standard deviations from the rolling mean of the last $N$ returns.
@@ -96,10 +143,14 @@ Flag an anomaly if the current log return deviates by more than $z$ standard dev
 *   $N$: The window size for returns (e.g., $N=100$).
 *   $z$: The standard deviation threshold (e.g., $z=3.5$).
 
-$$r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)$$
+$$
+r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)
+$$
 
 **Anomaly Condition:**
-$$|r_t - \mu_t| > z \times \sigma_t$$
+$$
+|r_t - \mu_t| > z \times \sigma_t
+$$
 
 ---
 
