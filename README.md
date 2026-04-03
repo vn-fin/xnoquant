@@ -1,6 +1,6 @@
-# XnoQuant Engineering Challenges
+# XNOQuant Engineering Challenges
 
-Welcome to the XnoQuant technical assessment! We've designed these challenges to evaluate your ability to solve real-world problems in high-frequency trading and market data ingestion. 
+Welcome to the XNOQuant technical assessment! We've designed these challenges to evaluate your ability to solve real-world problems in high-frequency trading and market data ingestion. 
 
 Please select the challenge corresponding to the role you are applying for and follow the instructions provided in its document:
 
